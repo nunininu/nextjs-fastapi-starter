@@ -22,7 +22,7 @@ def age_calculator(birthday: str) -> Dict[str, str]:
     birth_date = datetime.strptime(birthday, "%Y-%m-%d").date()
 
     age = today.year - birth_date.year
-    # TODO 생일 지난 여부 관련 로직 추가 개발 필요 
+    # 만 나이 계산 
     if int(today.month) < int(birth_date.month): 
         age = age-1
     elif (today.month == birth_date.month and int(today.day) < int(birth_date.day)): 
@@ -30,14 +30,22 @@ def age_calculator(birthday: str) -> Dict[str, str]:
 
     z = zodiac(birth_date.year)
 
+   #한국식나이계산
+    
+    import korean_age_calculator as kac
+
+    kage = kac.how_korean_age(year_of_birth=birth_date.year)
+
     return {
             "birthday": birthday,
-            "age": str(age) + " " + z,
+            "age": str(age) + " " + z + "한국나이: " + str(kage),
+            "kage" str(kage),
             "zodiac": z,
+            "speaker": "홍길동"
             "basedate": str(today),
             "message": "Age calculated successfully!"
             }
-
+# 띠 계산
 def zodiac(birth_year):
     return zodiac_animals[birth_year % 12 - 4]
     
