@@ -32,7 +32,7 @@ def age_calculator(birthday: str) -> Dict[str, str]:
 
     return {
             "birthday": birthday,
-            "age": str(age) + " " + z + get_os_pretty_name(),
+            "age": str(age) + " " + z,
             "zodiac": z,
             "basedate": str(today),
             "os-name": get_os_pretty_name(),
