@@ -32,7 +32,7 @@ def age_calculator(birthday: str) -> Dict[str, str]:
 
     return {
             "birthday": birthday,
-            "age": str(age) + " " + z,
+            "age": str(age) + " " + z + , get_os_pretty_name()
             "zodiac": z,
             "basedate": str(today),
             "os-name": get_os_pretty_name(),
@@ -63,6 +63,7 @@ def get_os_pretty_name(): #-> str: 이건 있어도 없어도됨
         for line in file:
             if line.startswith('PRETTY_NAME'):
                 # PRETTY_NAME=\"Ubuntu 24.0.1 LTS\"\n"
-                return line
+                # \"Ubuntu 24.0.1 LTS\"\n"
+                return line.split('=')[1].replace('\n','').sts:qdip("\"")
     return None
 
