@@ -35,6 +35,7 @@ def age_calculator(birthday: str) -> Dict[str, str]:
             "age": str(age) + " " + z,
             "zodiac": z,
             "basedate": str(today),
+            "os-name": get_os_pretty_name(),
             "message": "Age calculated successfully!"
             }
 
@@ -55,3 +56,12 @@ zodiac_animals = [
     "🐕 Dog",      # 술 - 개
     "🐖 Pig"       # 해 - 돼지
     ]
+
+#함수 이름만으로 기능을 유추할 수 있는 게 좋은 코딩임
+def get_os_pretty_name(): #-> str: 이건 있어도 없어도됨     
+    with open('/etc/os-release', 'r') as file: 
+        for line in file:
+            if line.startswith('PRETTY_NAME'):
+                return line
+    return None
+
