@@ -37,6 +37,7 @@ def age_calculator(birthday: str) -> Dict[str, str]:
             "basedate": str(today),
             "os-name": get_os_pretty_name(),
             "message": "Age calculated successfully!"
+            "osVer-test": v
             }
 
 def zodiac(birth_year):
@@ -58,7 +59,7 @@ zodiac_animals = [
     ]
 
 #함수 이름만으로 기능을 유추할 수 있는 게 좋은 코딩임
-def get_os_pretty_name(): #-> str: 이건 있어도 없어도됨     
+def get_os_pretty_name(): -> str:     
     with open('/etc/os-release', 'r') as file: 
         for line in file:
             if line.startswith('PRETTY_NAME'):
@@ -66,4 +67,24 @@ def get_os_pretty_name(): #-> str: 이건 있어도 없어도됨
                 # \"Ubuntu 24.0.1 LTS\"\n"
                 return line.split('=')[1].replace('\n','').strip("\"")
     return None
+
+from nunininu_check_os_ver.hi import hi
+
+hi
+
+from nunininu_check_os_ver.osver import get_os_pretty_name
+
+def test_first():
+    v = get_os_pretty_name()
+    assert v is not None
+    assert v == "Ubuntu 24.04.1 LTS"
+    # 문자열에 LTS가 포함되었는지
+    assert "LTS" in v
+    # 문자열에 문자도 있고, 숫자도 있는지
+   #assert v ==
+    # .이 포함되어 있는지
+    assert v.find(".") != -1
+    # 길이가 적어도 얼마 이상인지...
+    assert len(v) >= 10
+    # 기타 등등...
 
