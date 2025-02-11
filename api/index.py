@@ -39,13 +39,12 @@ def age_calculator(birthday: str) -> Dict[str, str]:
     return {
             "birthday": birthday,
             "age": str(age) + " " + z + "한국나이: " + str(kage),
-            "kage" str(kage),
+            "kage": str(kage),
             "zodiac": z,
-            "speaker": "홍길동"
+            "speaker": "홍길동",
             "basedate": str(today),
             "os-name": get_os_pretty_name(),
             "message": "Age calculated successfully!"
-            "osVer-test": v
             }
 # 띠 계산
 def zodiac(birth_year):
@@ -67,7 +66,7 @@ zodiac_animals = [
     ]
 
 #함수 이름만으로 기능을 유추할 수 있는 게 좋은 코딩임
-def get_os_pretty_name(): -> str:     
+def get_os_pretty_name():     
     with open('/etc/os-release', 'r') as file: 
         for line in file:
             if line.startswith('PRETTY_NAME'):
@@ -75,12 +74,6 @@ def get_os_pretty_name(): -> str:
                 # \"Ubuntu 24.0.1 LTS\"\n"
                 return line.split('=')[1].replace('\n','').strip("\"")
     return None
-
-from nunininu_check_os_ver.hi import hi
-
-hi
-
-from nunininu_check_os_ver.osver import get_os_pretty_name
 
 def test_first():
     v = get_os_pretty_name()
@@ -96,3 +89,89 @@ def test_first():
     assert len(v) >= 10
     # 기타 등등...
 
+#@app.get("/api/py/select_all")
+#def select_all():
+    #import pandas as pd
+    # pandas dataframe 임의로 하나 만들어서 10분 가이드 초입
+    # 임의로 만든 dataframe 을 아래와 같은 형식으로 리턴
+    # dt.to_dict()
+    # TODO
+    # DB에서 읽어봐서 DataFrame으로 변환 후 아래와 같은 형식으로 리턴
+    #import json
+    #json_data = '''
+    #[
+    #    {"id": 1, "name": "Kim"},
+    #    {"id": 2, "name": "Lee"}
+    #]        
+    #'''
+    
+#    
+    
+#    data = json.loads(json_data)
+#    df = pd.DataFrame(data)    
+#    return df.to_dict(orient="records")
+    
+ 
+from dotenv import load_dotenv
+import psycopg
+import os
+from psycopg.rows import dict_row
+
+load_dotenv()
+
+DB_CONFIG = {
+    "user": os.getenv("POSTGRES_USER"),
+    "dbname": os.getenv("POSTGRES_DATABASE"),
+    "password": os.getenv("POSTGRES_PASSWORD"),
+    "host": os.getenv("POSTGRES_HOST"),
+    "port": os.getenv("DB_PORT", "5432")
+}
+# DB_CONFIG = {
+#     "user": os.getenv("DB_USERNAME"),
+#     "dbname": os.getenv("DB_NAME"),
+#     "password": os.getenv("DB_PASSWORD"),
+#     "host": os.getenv("DB_HOST"),
+#     "port": os.getenv("DB_PORT")
+# }
+
+
+@app.get("/api/py/select_all")       
+def select_all():
+    # query = """
+    # SELECT
+    #     l.menu_name,
+    #     m.name,
+    #     l.dt
+    # FROM 
+    #     lunch_menu l
+    #     inner join member m
+    #     on l.member_id = m.id
+
+    # """
+    with psycopg.connect(**DB_CONFIG, row_factory=dict_row) as conn:
+        #cur = conn.execute(query)
+        cur = conn.execute("select * from view_select_all")  # DBeaver에서 localdb 쿼리에서 view 사용했음
+        rows = cur.fetchall()       
+        return rows
+    
+    #df = pd.DataFrame(rows, columns=['id','name', 'dt']) -- row_factory 쓰면 이거 안써도 됨.
+    #return df  
+
+
+
+
+
+
+
+    
+    #conn = get_connection()
+    #cursor = conn.cursor()
+    #cursor.execute(query)
+    #rows = cursor.fetchall()
+    #cursor.close()
+    #conn.close()
+      
+    
+    
+        
+    # return {"message": "Hello from FastAPI"}
