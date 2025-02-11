@@ -1,4 +1,4 @@
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse # 인코딩 UTF-8로 바꾸는 코드 추가
 from fastapi import FastAPI
 from datetime import datetime, date
 from typing import Dict
@@ -153,8 +153,12 @@ def select_all():
         #cur = conn.execute(query)
         cur = conn.execute("select * from view_select_all")  # DBeaver에서 localdb 쿼리에서 view 사용했음
         rows = cur.fetchall()       
+        for row in rows:  # 인코딩 UTF-8로 바꾸는 코드 추가
+            for key, value in row.items():  # 인코딩 UTF-8로 바꾸는 코드 추가
+                if isinstance(value, date):  # 인코딩 UTF-8로 바꾸는 코드 추가
+                    row[key] = value.strftime('%Y-%m-%d')   # 인코딩 UTF-8로 바꾸는 코드 추가
+        return JSONResponse(content=rows, headers={"Content-Type": "application/json; charset=utf-8"})
         #return rows
-        return JSONResponse(content=rows, media_type="application/json; charset=utf-8")
     #df = pd.DataFrame(rows, columns=['id','name', 'dt']) -- row_factory 쓰면 이거 안써도 됨.
     #return df  
 
